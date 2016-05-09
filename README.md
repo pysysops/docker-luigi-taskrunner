@@ -10,7 +10,7 @@ exec's out to the luigi command.
 To test the hello_world task you can run it with the --local-scheduler argument
 like this:
 ```
-docker run --rm luigi-task --module hello_world HelloWorldTask --local-scheduler
+docker run --rm pysysops/luigi-task --module hello_world HelloWorldTask --local-scheduler
 ```
 Note the --rm argument passed to docker run to cleanup the container after it's
 run the task.
