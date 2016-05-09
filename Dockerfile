@@ -27,7 +27,6 @@ RUN mkdir -p /luigi/tasks
 RUN mkdir -p /luigi/work
 RUN mkdir -p /luigi/outputs
 
-ADD ./luigi/taskrunner.sh /luigi/
 ADD ./luigi/tasks/hello_world.py /luigi/tasks
 
 RUN chown -R ${user}:${group} /luigi
@@ -47,5 +46,7 @@ RUN bash -c "pyvenv /luigi/.pyenv \
     && source /luigi/.pyenv/bin/activate \
     && pip install cython \
     && pip install sqlalchemy luigi pymssql psycopg2 alembic pandas"
+
+ADD ./luigi/taskrunner.sh /luigi/
 
 ENTRYPOINT ["bash", "/luigi/taskrunner.sh"]

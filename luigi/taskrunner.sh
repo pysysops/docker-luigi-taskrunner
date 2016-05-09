@@ -15,4 +15,4 @@ then
   pip install -r requirements.txt
 fi
 
-exec env PYTHONPATH=. luigi "$@"
+exec python -m luigi "$@"
