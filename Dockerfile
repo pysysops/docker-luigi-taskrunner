@@ -38,6 +38,8 @@ VOLUME /luigi/work
 VOLUME /luigi/tasks
 VOLUME /luigi/outputs
 
+RUN apk add --no-cache postgresql-dev freetds freetds-dev
+
 USER ${user}
 
 RUN pyvenv /luigi/.pyenv
