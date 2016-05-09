@@ -18,8 +18,6 @@ ARG gid=2101
 RUN addgroup -g ${gid} ${group} \
     && adduser -u ${uid} -G ${group} -D -s /bin/bash ${user}
 
-RUN pip install sqlalchemy luigi
-
 RUN mkdir /etc/luigi
 ADD ./etc/luigi/logging.cfg /etc/luigi/
 ADD ./etc/luigi/client.cfg /etc/luigi/
@@ -43,6 +41,8 @@ RUN apk add --no-cache postgresql-dev freetds freetds-dev gcc make musl-dev
 
 USER ${user}
 
-RUN pyvenv /luigi/.pyenv
+RUN pyvenv /luigi/.pyenv \
+    && source /luigi/.pyenv/bin/activate \
+    && pip install sqlalchemy luigi pymssql psycopg2 alembic pandas
 
 ENTRYPOINT ["/luigi/taskrunner.sh"]
