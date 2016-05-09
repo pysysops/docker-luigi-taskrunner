@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Script to run luigi tasks.
 # The following assumptions have been made:
@@ -15,4 +15,4 @@ then
   pip install -r requirements.txt
 fi
 
-exec python "$@"
+exec env PYTHONPATH=. luigi "$@"

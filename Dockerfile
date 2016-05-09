@@ -3,7 +3,7 @@
 # luigid running on port 8082
 # --------------------------------------------------------------------------
 
-FROM python:alpine
+FROM python:latest
 
 MAINTAINER  Tim Birkett <tim@birkett-bros.com> (@pysysops)
 
@@ -15,8 +15,8 @@ ARG gid=2101
 # The luigi app is run with user `app`, uid = 2101
 # If you bind mount a volume from the host or a data container,
 # ensure you use the same uid
-RUN addgroup -g ${gid} ${group} \
-    && adduser -u ${uid} -G ${group} -D -s /bin/bash ${user}
+RUN groupadd -g ${gid} ${group} \
+    && useradd -u ${uid} -g ${group} -m -s /bin/bash ${user}
 
 RUN mkdir /etc/luigi
 ADD ./etc/luigi/logging.cfg /etc/luigi/
@@ -36,13 +36,16 @@ VOLUME /luigi/work
 VOLUME /luigi/tasks
 VOLUME /luigi/outputs
 
-# Build deps for pip modules
-RUN apk add --no-cache postgresql-dev freetds freetds-dev gcc make musl-dev
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    freetds-dev \
+    build-essential
 
 USER ${user}
 
-RUN pyvenv /luigi/.pyenv \
+RUN bash -c "pyvenv /luigi/.pyenv \
     && source /luigi/.pyenv/bin/activate \
-    && pip install sqlalchemy luigi pymssql psycopg2 alembic pandas
+    && pip install cython \
+    && pip install sqlalchemy luigi pymssql psycopg2 alembic pandas"
 
-ENTRYPOINT ["/luigi/taskrunner.sh"]
+ENTRYPOINT ["bash", "/luigi/taskrunner.sh"]
