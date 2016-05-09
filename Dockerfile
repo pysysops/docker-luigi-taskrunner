@@ -38,7 +38,8 @@ VOLUME /luigi/work
 VOLUME /luigi/tasks
 VOLUME /luigi/outputs
 
-RUN apk add --no-cache postgresql-dev freetds freetds-dev gcc make
+# Build deps for pip modules
+RUN apk add --no-cache postgresql-dev freetds freetds-dev gcc make musl-dev
 
 USER ${user}
 
