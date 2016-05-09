@@ -27,7 +27,7 @@ luigid is now running on port 8082.
 Now, let's run the hello_world task again and link the container to our luigid
 container
 ```
-docker run --rm --link luigid luigi-task --module hello_world HelloWorldTask
+docker run --rm --link luigid pysysops/luigi-task --module hello_world HelloWorldTask
 ```
 If everthing worked as it should, you can open up http://localhost:8082 in a
 browser and you should see that a HelloWorldTask ran.
